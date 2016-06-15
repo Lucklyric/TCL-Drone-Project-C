@@ -1,9 +1,4 @@
-Purpose of BebopDroneDecodeStream
-==================
-This sample shows how to receive video stream from a Bebop Drone, decode it, display the decoded stream with mplayer and get inputs from users to control the Bebop drone.
-
-
-To compile SDK Example BebopDroneDecodeStream
+To compile The project
 ==================
 On Linux and MacOS X platform :
 make
@@ -11,25 +6,13 @@ make
 
 Dependencies of BebopDroneDecodeStream
 ==================
-You will need **mplayer** to show the video stream, **ffmpeg** to get the video decoded and **ncurse** to get inputs from console
+~
+repo init -u https://github.com/Parrot-Developers/arsdk_manifests.git
+~
 
-On Linux you can get ncurses-dev apt-get:
-apt-get install ncurses-dev
 
-To run SDK Example BebopDroneDecodeStream
+
 ==================
-On Linux and MacOS X platform :
-make run
-
-To clean the compilation of BebopDroneDecodeStream
-==================
-On Linux and MacOS X platform :
-make clean
-
-Discussion about BebopDroneDecodeStream
-==================
-This project is separated into 3 classes : 
-
 - BebopDroneDecodeStream : 
 This is the main class. It will operate the connexion to the drone, the setup of the network and video part. 
 It will also register for commands callback and send commands. If you need to add callbacks, add it in registerARCommandsCallbacks.
