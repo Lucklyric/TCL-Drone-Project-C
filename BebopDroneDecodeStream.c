@@ -46,7 +46,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
-#include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
 #include <libavutil/imgutils.h>
 
@@ -56,6 +55,7 @@
 #include <libARNetworkAL/ARNetworkAL.h>
 #include <libARDiscovery/ARDiscovery.h>
 #include <libARStream/ARStream.h>
+#include <libavutil/avconfig.h>
 
 #include "BebopDroneDecodeStream.h"
 
@@ -105,7 +105,6 @@ void addFreeRawFrameToFifo(BD_MANAGER_t *deviceManager, RawFrame_t *rawFrame);
 void flushFifo(BD_MANAGER_t *deviceManager);
 void putRawFrameBackToPool(BD_MANAGER_t *deviceManager, int fifoIdx);
 RawFrame_t *getFrameFromData(BD_MANAGER_t *deviceManager, uint8_t *data);
-int MyWriteJPEG(AVFrame* pFrame, int width, int height, int iIndex);
 bool WriteJPEG(AVCodecContext *pCodecCtx, AVFrame *pFrame, char cFileName[],
 		uint8_t *buffer, int numBytes);
 
@@ -322,7 +321,7 @@ void* Decode_RunDataThread(void *customData) {
 					//MyWriteJPEG(avFrame, decodedFrame->width, decodedFrame->height, 1);
 
 					/**************************************TCL PART********************************************/
-					int numBytes = avpicture_get_size(PIX_FMT_YUVJ420P,
+					int numBytes = avpicture_get_size(AV_PIX_FMT_YUV420P,
 							decodedFrame->width, decodedFrame->height);
 					uint8_t *buffer = (uint8_t *) av_malloc(
 							numBytes * sizeof(uint8_t));
@@ -335,6 +334,7 @@ void* Decode_RunDataThread(void *customData) {
 					if (bret == true)
 						IHM_PrintHeader(deviceManager->ihm, "-WriteJPEG --");
 					/**************************************TCL PART END********************************************/
+
 					av_frame_free(&avFrame);
 				}
 
@@ -1712,7 +1712,7 @@ bool WriteJPEG(AVCodecContext *pCodecCtx, AVFrame *pFrame, char cFileName[],
 		pMJPEGCtx->bit_rate = pCodecCtx->bit_rate;
 		pMJPEGCtx->width = pCodecCtx->width;
 		pMJPEGCtx->height = pCodecCtx->height;
-		pMJPEGCtx->pix_fmt = PIX_FMT_YUVJ420P;
+		pMJPEGCtx->pix_fmt = PIX_FMT_YUV420P;
 		pMJPEGCtx->codec_id = CODEC_ID_MJPEG;
 		pMJPEGCtx->codec_type = AVMEDIA_TYPE_VIDEO;
 		pMJPEGCtx->time_base.num = pCodecCtx->time_base.num;
