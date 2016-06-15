@@ -1,17 +1,70 @@
-To compile The project
-==================
-On Linux and MacOS X platform :
-make
 
-
-Dependencies of BebopDroneDecodeStream
+Dependencies of Project
 ==================
-~
+Install repo
+To install Repo:
+
+Make sure you have a bin/ directory in your home directory and that it is included in your path:
+~~~
+mkdir ~/bin
+PATH=~/bin:$PATH
+~~~
+Download the Repo tool and ensure that it is executable:
+~~~
+curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+chmod a+x ~/bin/repo
+~~~
+Get Bebop sdk source code
+~~~
 repo init -u https://github.com/Parrot-Developers/arsdk_manifests.git
-~
+repo sync
+~~~
 
+REQUIRED EXTERNAL TOOLS
 
+These external tools are required to build the SDK:
 
+* git
+* build-essential (only for Linux)
+* autoconf
+* libtool
+* libavahi-client-dev
+* libavcodec-dev
+* libavformat-dev
+* libswscale-dev
+* libncurses5-dev
+* mplayer
+~~~
+sudo apt-get install PACKAGE_NAME
+~~~
+Build
+
+~~~
+./build.sh -p arsdk-native -t TASK OTHER_ARGS
+~~~
+Tasks available are:
+
+* build-sdk (Build native sdk)
+* build-sample (Build all native samples)
+* build-sample-SAMPLE_NAME (Build unix sdk sample for SAMPLE_NAME)
+Such as
+~~~
+./build.sh -p arsdk-native -t build-sdk -j
+~~~
+The output will be in <SDK>/out/Unix-base/staging/usr/
+
+Add below to ~/.bashrc
+~~~
+source <SDK>/out/arsdk-native/staging/native-wrapper.sh. 
+~~~
+To compile The Project
+==================
+Replace the SDK_DIR in makefile with your own PATH of SDK 
+
+On Linux and MacOS X platform :
+~~~
+make
+~~~
 ==================
 - BebopDroneDecodeStream : 
 This is the main class. It will operate the connexion to the drone, the setup of the network and video part. 
